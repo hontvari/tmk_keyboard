@@ -134,6 +134,9 @@ workman: all
 micro: OPT_DEFS += -DKEYMAP_MICRO
 micro: all
 
+levente: OPT_DEFS += -DKEYMAP_LEVENTE
+levente: all
+
 cub: OPT_DEFS += -DKEYMAP_CUB
 cub: all
 
