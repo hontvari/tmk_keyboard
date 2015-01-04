@@ -1,6 +1,7 @@
 /* id for user defined functions & macros */
 enum function_id {
     TEENSY_KEY,
+    LANG_KEY,
 };
 
 /*
@@ -14,19 +15,20 @@ static const uint16_t PROGMEM fn_actions[] = {
 
     // switch on layer 1
     #define KC_PL1                               KC_FN1
-    [1] =   ACTION_LAYER_TOGGLE(1),
+    [1] =   ACTION_LAYER_TOGGLE(2),
 
     // momentary layer 1
     #define KC_ML1                               KC_FN2
-    [2] =   ACTION_LAYER_MOMENTARY(1),
+    [2] =   ACTION_LAYER_MOMENTARY(2),
 
     // switch language
     #define KC_LANG                              KC_FN3
-    [3] =   ACTION_MODS_KEY(MOD_LGUI, KC_SPC),
+    //[3] =   ACTION_MODS_KEY(MOD_LGUI, KC_SPC),
+    [3] =   ACTION_FUNCTION(LANG_KEY),
 
     // switch on layer 2
     #define KC_PL2                               KC_FN4
-    [4] =   ACTION_LAYER_TOGGLE(2),
+    [4] =   ACTION_LAYER_TOGGLE(3),
 
     // reset layering, switch off all layers, only the default remains active
     #define KC_L0                                KC_FN5
@@ -39,7 +41,7 @@ static const uint16_t PROGMEM fn_actions[] = {
 
 static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
-     * Keymap: Layer 0
+     * Keymap: Layer 0. Same as Kinesis, but functions assigned to the additional keys of Ergodox.
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |   `    |   1  |   2  |   3  |   4  |   5  | +L1  |           | +L2  |   6  |   7  |   8  |   9  |   0  |   -    |
@@ -60,13 +62,36 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *                                 |      |      |  End |       | PgDn |      |      |
      *                                 `--------------------'       `--------------------'
      *
+     ****************************************************************************************************
+     *
+     * Keymap: Layer 1. Make English input consistent with Hungarian Z-Y placement
+     *
+     * ,--------------------------------------------------.           ,--------------------------------------------------.
+     * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
+     * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+     * |        |      |      |      |      |      |      |           |      |   Z  |      |      |      |      |        |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * |        |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+     * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+     * |        |   Y  |      |      |      |      |      |           |      |      |      |      |      |      |        |
+     * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+     *   |      |      |      |      |      |                                       |      |      |      |      |      |
+     *   `----------------------------------'                                       `----------------------------------'
+     *                                        ,-------------.       ,-------------.
+     *                                        |      |      |       |      |      |
+     *                                 ,------|------|------|       |------+------+------.
+     *                                 |      |      |      |       |      |      |      |
+     *                                 |      |      |------|       |------|      |      |
+     *                                 |      |      |      |       |      |      |      |
+     *                                 `--------------------'       `--------------------'
+     *
      *
      *
      ****************************************************************************************************
      *
      *
      *
-     * Keymap: Layer 1
+     * Keymap: Layer 2
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * |        |  F1  |  F2  |  F3  |  F4  |  F5  | =L0  |           | =L0  |  F6  |  F7  |  F8  |  F9  |  F10 |        |
@@ -93,7 +118,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      *
      *
      *
-     * Keymap: Layer 2
+     * Keymap: Layer 3
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
      * | Teensy |      |      |      |      |      | =L0  |           | =L0  |      | NumLk|   =  |   /  |   *  |        |
@@ -165,7 +190,28 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         PGDN,ENT ,SPC
     ),
 
-    KEYMAP(  // Layer1
+    KEYMAP(  // Layer1:
+        // left hand
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,Y   ,TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,TRNS,TRNS,TRNS,TRNS,
+                                      TRNS,TRNS,
+                                           TRNS,
+                                 TRNS,TRNS,TRNS,
+        // right hand
+             TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+             TRNS,Z   ,TRNS,TRNS,TRNS,TRNS,TRNS,
+                  TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+             TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
+                       TRNS,TRNS,TRNS,TRNS,TRNS,
+        TRNS,TRNS,
+        TRNS,
+        TRNS,TRNS,TRNS
+    ),
+
+    KEYMAP(  // Layer2
         // left hand
         NO  ,F1  ,F2  ,F3  ,F4  ,F5  ,L0  ,
         NO  ,F11 ,F12 ,F13 ,F14 ,F15 ,TRNS,
@@ -186,7 +232,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         NO  ,NO  ,NO
     ),
 
-    KEYMAP(  // Layer2
+    KEYMAP(  // Layer3
         // left hand
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,L0  ,
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
@@ -286,6 +332,28 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
         _delay_ms(50);
         bootloader_jump(); // should not return
         print("not supported.\n");
+    } else if (id == LANG_KEY) {
+        // toggle layer 1
+        if (record->event.pressed) {
+            layer_invert(1);
+            //print("layer_state: "); phex(layer_state); print("\n");
+            // layer 1 is the second lowest bit?
+            //if (layer_state & (1<<1))
+            //    ergodox_board_led_on();
+            //else
+            //    ergodox_board_led_off();
+        }
+
+        // send LGUI + SPACE
+        if (record->event.pressed) {
+            add_weak_mods(MOD_BIT(KC_LGUI));
+            send_keyboard_report();
+            register_code(KC_SPACE);
+        } else {
+            unregister_code(KC_SPACE);
+            del_weak_mods(MOD_BIT(KC_LGUI));
+            send_keyboard_report();
+        }
     }
 }
 
