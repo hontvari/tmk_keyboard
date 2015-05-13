@@ -134,6 +134,9 @@ workman: all
 micro: OPT_DEFS += -DKEYMAP_MICRO
 micro: all
 
+cadet: OPT_DEFS += -DKEYMAP_CADET
+cadet: all
+
 cub: OPT_DEFS += -DKEYMAP_CUB
 cub: all
 
