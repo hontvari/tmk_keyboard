@@ -22,7 +22,7 @@ static const uint16_t PROGMEM fn_actions[] = {
 
     // switch language
     #define KC_LANG                              KC_FN3
-    [3] =   ACTION_MODS_KEY(MOD_LGUI, KC_SPC),
+    [3] =   ACTION_MODS_ONESHOT(MOD_RALT),
 
     // switch on layer 2
     #define KC_PL2                               KC_FN4
@@ -32,21 +32,6 @@ static const uint16_t PROGMEM fn_actions[] = {
     #define KC_L0                                KC_FN5
     [5] =   ACTION_LAYER_CLEAR(ON_RELEASE),
 
-    // D if tapped, Front (RAlt) if hold down
-    #define KC_D_Fr                                KC_FN6
-    [6] =   ACTION_MODS_TAP_KEY(MOD_RALT, KC_D),
-
-    // F if tapped, Left Shift (RAlt) if hold down
-    #define KC_F_Sh                                KC_FN7
-    [7] =   ACTION_MODS_TAP_KEY(MOD_LSFT, KC_F),
-
-    // J if tapped, Right Shift if hold down
-    #define KC_J_Sh                                KC_FN8
-    [8] =   ACTION_MODS_TAP_KEY(MOD_RSFT, KC_J),
-
-    // K if tapped, Front (RAlt) if hold down
-    #define KC_K_Fr                                KC_FN9
-    [9] =   ACTION_MODS_TAP_KEY(MOD_RALT, KC_K),
 };
 
 
@@ -78,11 +63,11 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
      * |  Tab   |   Q  |   W  |   E  |   R  |   T  | ~L1  |           | ~L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
-     * | CapsLk |   A  |   S  |D-Frnt|F-LShf|   G  |------|           |------|   H  |J-RShf|K-Frnt|   L  |   ;  |   '    |
-     * |--------+------+------+------+------+------| Lang |           | Esc  |------+------+------+------+------+--------|
+     * | CapsLk |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |  J   |   K  |   L  |   ;  |   '    |
+     * |--------+------+------+------+------+------| Frnt |           | Frnt |------+------+------+------+------+--------|
      * |  LShf  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |  RShf  |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LGui |   =  | \Int |  Lft | Rght |                                       |  Up  |  Dn  |  [   |  ]   | RGui |
+     *   | LGui |   =  |  Esc |  Lft | Rght |                                       |  Up  |  Dn  |  [   |  ]   | RGui |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
      *                                        | LCtl | LAlt |       | LAlt | RCtl |
@@ -182,17 +167,17 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         // left hand
         GRV ,1   ,2   ,3   ,4   ,5   ,PL1 ,
         TAB ,Q   ,W   ,E   ,R   ,T   ,ML1 ,
-        CAPS,A   ,S   ,D_Fr,F_Sh,G   ,
+        CAPS,A   ,S   ,D   ,F   ,G   ,
         LSFT,Z   ,X   ,C   ,V   ,B   ,LANG,
-        LGUI,EQL ,NUBS,LEFT,RGHT,
+        LGUI,EQL ,ESC ,LEFT,RGHT,
                                       LCTL,LALT,
                                            HOME,
                                  BSPC,DEL ,END ,
         // right hand
              PL2 ,6   ,7   ,8   ,9   ,0   ,MINS,
              ML1 ,Y   ,U   ,I   ,O   ,P   ,BSLS,
-                  H   ,J_Sh,K_Fr,L   ,SCLN,QUOT,
-             ESC ,N   ,M   ,COMM,DOT ,SLSH,RSFT,
+                  H   ,J   ,K   ,L   ,SCLN,QUOT,
+             LANG,N   ,M   ,COMM,DOT ,SLSH,RSFT,
                        UP  ,DOWN,LBRC,RBRC,RGUI,
         LALT,RCTL,
         PGUP,
