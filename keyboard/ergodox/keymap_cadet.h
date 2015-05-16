@@ -3,9 +3,6 @@ enum function_id {
     TEENSY_KEY,
     LEFT_PARENTHESIS,
     RIGHT_PARENTHESIS,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    COLON,
 };
 
 /*
@@ -16,26 +13,6 @@ static const uint16_t PROGMEM fn_actions[] = {
     // TEENSY programming
     #define KC_TEEN                              KC_FN0
     [0] =   ACTION_FUNCTION(TEENSY_KEY),
-
-    // switch on layer 1
-    #define KC_PL1                               KC_FN1
-    [1] =   ACTION_LAYER_TOGGLE(2),
-
-    // momentary layer 1
-    #define KC_ML1                               KC_FN2
-    [2] =   ACTION_LAYER_MOMENTARY(2),
-
-    // switch language
-    #define KC_LANG                              KC_FN3
-    [3] =   ACTION_MODS_ONESHOT(MOD_RALT),
-
-    // switch on layer 2
-    #define KC_PL2                               KC_FN4
-    [4] =   ACTION_LAYER_TOGGLE(3),
-
-    // reset layering, switch off all layers, only the default remains active
-    #define KC_L0                                KC_FN5
-    [5] =   ACTION_LAYER_CLEAR(ON_RELEASE),
 
     // opening parenthesis
     #define KC_LPAR                              KC_FN6
@@ -65,18 +42,21 @@ static const uint16_t PROGMEM fn_actions[] = {
     #define KC_XML5                              KC_FN12
     [12] =   ACTION_LAYER_MOMENTARY(5),
 
-    // numpad left brace
+    // left brace (numpad braces does not work on Linux (evdev?))
     #define KC_LCBR                              KC_FN13
     [13] =   ACTION_MODS_KEY(MOD_LSFT, KC_LBRACKET),
 
-    // numpad right braces
+    // right braces (numpad braces does not work on Linux (evdev?))
     #define KC_RCBR                              KC_FN14
     [14] =   ACTION_MODS_KEY(MOD_LSFT, KC_RBRACKET),
 
-    // numpad colon
+    // colon (numpad colon does not work on Linux (evdev?))
     #define KC_COLN                              KC_FN15
     [15] =   ACTION_MODS_KEY(MOD_LSFT, KC_SCOLON),
 
+    // double quote
+    #define KC_DQUO                              KC_FN16
+    [16] =   ACTION_MODS_KEY(MOD_LSFT, KC_QUOT),
 };
 
 
@@ -105,20 +85,20 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          * ,--------------------------------------------------.           ,--------------------------------------------------.
          * |   `    |   1  |   2  |   3  |   4  |   5  |   [  |           |   ]  |   6  |   7  |   8  |   9  |   0  |   -    |
          * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-         * |  Tab   |   Q  |   W  |   E  |   R  |   T  |      |           |      |   Y  |   U  |   I  |   O  |   P  |   \    |
+         * |  Tab   |   Q  |   W  |   E  |   R  |   T  |  CUT |           | PASTE|   Y  |   U  |   I  |   O  |   P  |   \    |
          * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
          * | CapsLk |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |   ;  |   '    |
-         * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+         * |--------+------+------+------+------+------| COPY |           | UNDO |------+------+------+------+------+--------|
          * |   Esc  |  Z   |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   :    |
          * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-         *   |      |  =   |   +  |  (  |   )   |                                       |  SPC |  ENT |   {  |   }  | COMP |
+         *   |      |  =   |   +  |  (  |   )   |                                       |  ENT |   "  |   {  |   }  | COMP |
          *   `----------------------------------'                                       `----------------------------------'
          *                                        ,-------------.       ,-------------.
          *                                        |      |      |       |      |      |
          *                                 ,------|------|------|       |------+------+------.
          *                                 |      |      |      |       |      |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  ~L5 |
-         *                                 |      |      |  ~L3 |       |      |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  SPC |
+         *                                 |      |      |  ~L3 |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          ****************************************************************************************************
@@ -134,14 +114,14 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
          * |        | LHyp | LGui | LAlt | LCtl |      |      |           |      |      | BSPC |  DEL |      | Ins  |  Pause |
          * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-         *   |      |(LShf)|(LShf)|(LShf)|(LShf)|                                       |      |      |      |      |      |
+         *   |      |(LShf)|(LShf)|(LShf)|(LShf)|                                       |  ENT |      |      |      |      |
          *   `----------------------------------'                                       `----------------------------------'
          *                                        ,-------------.       ,-------------.
          *                                        |      |      |       |      |      |
          *                                 ,------|------|------|       |------+------+------.
          *                                 |      |      |      |       |      |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  ~L5 |
-         *                                 |      |      |  ~L3 |       |      |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  SPC |
+         *                                 |      |      |  ~L3 |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          *
@@ -165,8 +145,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          *                                        |      |      |       | TRNS | TRNS |
          *                                 ,------|------|------|       |------+------+------.
          *                                 |      |      |      |       | TRNS |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  ~L5 |
-         *                                 |      |      |  ~L3 |       | TRNS |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  SPC |
+         *                                 |      |      |  ~L3 |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          *
@@ -192,8 +172,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          *                                        |      |      |       |      |      |
          *                                 ,------|------|------|       |------+------+------.
          *                                 |      |      |      |       |      |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|      |   0  |
-         *                                 |      |      | ~L3  |       |      |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |   0  |
+         *                                 |      |      | ~L3  |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          *
@@ -201,7 +181,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          ****************************************************************************************************
          *
          *
-         * Layer4: Modifiers right, alphanum left
+         * Layer4: Alphanum left, modifiers right
          *
          * ,--------------------------------------------------.           ,--------------------------------------------------.
          * |  TRNS  | TRNS | TRNS | TRNS | TRNS | TRNS | TRNS |           |      |      |      |      |      |      |        |
@@ -209,24 +189,24 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          * |  TRNS  | TRNS | TRNS | TRNS | TRNS | TRNS | TRNS |           |      |      |      |      |      |      |        |
          * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
          * |  TRNS  | TRNS | TRNS | TRNS | TRNS | TRNS |------|           |------|      | RShf | AltGr|  Top |(RShf)|        |
-         * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+         * |--------+------+------+------+------+------| TRNS |           |      |------+------+------+------+------+--------|
          * |  TRNS  | TRNS | TRNS | TRNS | TRNS | TRNS |      |           |      |      | RCtl | LAlt | RGui | RHyp |        |
          * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
          *   | TRNS | TRNS | TRNS | TRNS | TRNS |                                       |(RShf)|(RShf)|(RShf)|(RShf)|      |
          *   `----------------------------------'                                       `----------------------------------'
          *                                        ,-------------.       ,-------------.
-         *                                        |      |      |       |      |      |
+         *                                        | TRNS | TRNS |       |      |      |
          *                                 ,------|------|------|       |------+------+------.
-         *                                 |      |      |      |       |      |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  ~L5 |
-         *                                 |      |      | ~L3  |       |      |      |      |
+         *                                 |      |      | TRNS |       |      |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  SPC |
+         *                                 |      |      | ~L3  |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          *
          *
          ****************************************************************************************************
          *
-         * Layer 5. Modifier right, function keys left
+         * Layer 5. Function keys left, modifiers right
          *
          * ,--------------------------------------------------.           ,--------------------------------------------------.
          * |        |  F16 |  F17 |  F18 |  F19 |  F20 |      |           |      |      |      |      |      |      |        |
@@ -243,8 +223,8 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
          *                                        |      |      |       |      |      |
          *                                 ,------|------|------|       |------+------+------.
          *                                 |      |      |      |       |      |      |      |
-         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  ~L5 |
-         *                                 |      |      | ~L3  |       |      |      |      |
+         *                                 |  ~L1 |  ~L2 |------|       |------|  ~L4 |  SPC |
+         *                                 |      |      | ~L3  |       |  ~L5 |      |      |
          *                                 `--------------------'       `--------------------'
          *
          *
@@ -280,28 +260,28 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KEYMAP(  // Layer 0: ALPHANUMERIC
         // left hand
         GRV ,1   ,2   ,3   ,4   ,5   ,LBRC,
-        TAB ,Q   ,W   ,E   ,R   ,T   ,ML1  ,
+        TAB ,Q   ,W   ,E   ,R   ,T   ,CUT ,
         CAPS,A   ,S   ,D   ,F   ,G   ,
-        ESC ,Z   ,X   ,C   ,V   ,B   ,NO  ,
+        ESC ,Z   ,X   ,C   ,V   ,B   ,COPY,
         NO  ,EQL ,PPLS,LPAR,RPAR,
                                       NO  ,NO  ,
                                            NO  ,
                                  XML1,XML2,XML3,
         // right hand
              RBRC,6   ,7   ,8   ,9   ,0   ,MINS,
-             ML1 ,Y   ,U   ,I   ,O   ,P   ,BSLS,
+             PASTE,Y   ,U   ,I   ,O   ,P   ,BSLS,
                   H   ,J   ,K   ,L   ,SCLN,QUOT,
-             NO  ,N   ,M   ,COMM,DOT ,SLSH,COLN,
-                       SPC ,ENT ,LCBR,RCBR,MENU,
+             UNDO,N   ,M   ,COMM,DOT ,SLSH,COLN,
+                       ENT ,DQUO,LCBR,RCBR,MENU,
         NO  ,NO  ,
         NO  ,
-        NO  ,XML4,XML5
+        XML5,XML4,SPC
     ),
 
     KEYMAP(  // Layer1: Modifiers left, navigation keys right
         // left hand
         NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,ML1 ,
+        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
         NO  ,LSFT,LANG2,RALT,LSFT,NO  ,
         NO  ,RGUI,LGUI,LALT,LCTL,NO  ,NO  ,
         NO  ,LSFT,LSFT,LSFT,LSFT,
@@ -310,19 +290,19 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                  XML1,XML2,XML3,
         // right hand
              NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-             ML1 ,HOME,PGDN,PGUP,END ,NO  ,PSCR,
+             NO  ,HOME,PGDN,PGUP,END ,NO  ,PSCR,
                   LEFT,DOWN,UP  ,RGHT,NO  ,SLCK,
              NO  ,NO  ,BSPC,DEL ,NO  ,INS ,PAUS,
-                       NO  ,NO  ,NO  ,NO  ,NO  ,
+                       ENT ,NO  ,NO  ,NO  ,NO  ,
         NO  ,NO  ,
         NO  ,
-        NO  ,XML4,XML5
+        XML5,XML4,SPC
     ),
 
     KEYMAP(  // Layer 2: Modifiers left, alphanumeric right
         // left hand
         NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,ML1 ,
+        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
         NO  ,LSFT,LANG2,RALT,LSFT,NO  ,
         NO  ,RGUI,LGUI,LALT,LCTL,NO  ,NO  ,
         NO  ,LSFT,LSFT,LSFT,LSFT,
@@ -337,13 +317,13 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        TRNS,TRNS,TRNS,TRNS,TRNS,
         TRNS,TRNS,
         TRNS,
-        TRNS,TRNS,TRNS
+        XML5,XML4,SPC
     ),
 
     KEYMAP(  // Layer3: NUMPAD
         // left hand
         TEEN,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,ML1 ,
+        NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
         NO  ,LSFT,LANG2,RALT,LSFT,NO  ,
         NO  ,RGUI,LGUI,LALT,LCTL,NO  ,NO  ,
         NO  ,LSFT,LSFT,LSFT,LSFT,
@@ -358,10 +338,10 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                        NO  ,NO  ,PDOT,PENT,NO  ,
         NO  ,NO  ,
         NO  ,
-        NO  ,NO  ,P0
+        XML5,XML4,P0
     ),
 
-    KEYMAP(  // Layer 4: Alphanumber left, modifier right
+    KEYMAP(  // Layer 4: Alphanumeric left, modifiers right
         // left hand
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
         TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,TRNS,
@@ -370,22 +350,22 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         TRNS,TRNS,TRNS,TRNS,TRNS,
                                       TRNS,TRNS,
                                            TRNS,
-                                 TRNS,TRNS,TRNS,
+                                 XML1,XML2,XML3,
         // right hand
-             L0  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-             ML1 ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
+             NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
+             NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
                   NO  ,RSFT,RALT,LANG2,LSFT,NO  ,
              NO  ,NO  ,RCTL,LALT,LGUI,RGUI,NO  ,
                        RSFT,RSFT,RSFT,RSFT,NO  ,
         NO  ,NO  ,
         NO  ,
-        NO  ,XML4,XML5
+        XML5,XML4,SPC
     ),
 
-    KEYMAP(  // Layer5: function
+    KEYMAP(  // Layer5: Function left, modifiers right
         // left hand
         NO  ,F16 ,F17 ,F18 ,F19 ,F20 ,NO  ,
-        NO  ,F6  ,F7  ,F8  ,F9  ,F10 ,ML1 ,
+        NO  ,F6  ,F7  ,F8  ,F9  ,F10 ,NO  ,
         NO  ,F1  ,F2  ,F3  ,F4  ,F5  ,
         NO  ,F11 ,F12 ,F13 ,F14 ,F15 ,NO  ,
         NO  ,F21 ,F22 ,F23 ,F24 ,
@@ -393,14 +373,14 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                            NO  ,
                                  XML1,XML2,XML3,
         // right hand
-             L0  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
-             ML1 ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
+             NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
+             NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,NO  ,
                   NO  ,RSFT,RALT,LANG2,LSFT,NO  ,
              NO  ,NO  ,RCTL,LALT,LGUI,RGUI,NO  ,
                        RSFT,RSFT,RSFT,RSFT,NO  ,
         NO  ,NO  ,
         NO  ,
-        NO  ,XML4,XML5
+        XML5,XML4,SPC
     ),
 
 /*
@@ -496,30 +476,6 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt)
             send_keyboard_report();
         } else {
             del_key(0xB7);
-            send_keyboard_report();
-        }
-    } else if (id == LEFT_BRACE) {
-        if (record->event.pressed) {
-            add_key(0xB8);
-            send_keyboard_report();
-        } else {
-            del_key(0xB8);
-            send_keyboard_report();
-        }
-    } else if (id == RIGHT_BRACE) {
-        if (record->event.pressed) {
-            add_key(0xB9);
-            send_keyboard_report();
-        } else {
-            del_key(0xB9);
-            send_keyboard_report();
-        }
-    } else if (id == COLON) {
-        if (record->event.pressed) {
-            add_key(0xCB);
-            send_keyboard_report();
-        } else {
-            del_key(0xCB);
             send_keyboard_report();
         }
     }
