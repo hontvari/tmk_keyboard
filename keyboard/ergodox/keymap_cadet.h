@@ -41,36 +41,36 @@ static const uint16_t PROGMEM fn_actions[] = {
 static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * Legend:
-     *   Frnt = Level3 Shift in ISO standard, AltGr on PC
-     *   Top = Level 5 Shift
-     *   LMet, RMet = Alt on PC
-     *   LSup, RSup = Super on UNIX, Windows on Windows
-     *   LHyp, RHyp = Hyper on UNIX
-     *   X-Y = X if tapped, Y if hold down
-     *   : = (non-standard key)
-     *   + = non-standard key or Keypad +
-     *   ( = non-standard key or Keypad (
-     *   ) = non-standard key or Keypad )
-     *   { = non-standard key
-     *   } = non-standard key
-     *   COMP = Compose key
+     *   Symbol in drawing | USB keycode | Description
+     *   Frnt              | RALT        | Front or Greek on Space Cadet, Level3 Shift in ISO standard, AltGr on PC
+     *   Top               | LANG2       | Top on Space Cadet, Level 5 Shift
+     *   LMet, RMet        | LALT        | Meta on Space Cadet, Alt on PC
+     *   LSup, RSup        | LGUI        | Super on Space Cadet, UNIX, Windows on Windows, Gui key in USB specification
+     *   LHyp, RHyp        | RGUI        | Hyper on Space Cadet, UNIX
+     *   COMP              | MENU        | Compose key on Sun, UNIX
+     *   +                 | PPLS        | Keypad +
+     *   (                 | KP_LPAREN   | Keypad (
+     *   )                 | KP_RPAREN   | Keypad )
+     *   :                 | KP_COLON    | Keypad colon
+     *   {                 |             | non-standard key
+     *   }                 |             | non-standard key
+     ****************************************************************************************************
      *
-     * Keymap: Layer 0. Same as Kinesis, but functions assigned to the additional keys of Ergodox,
-     *         and RAlt is replaced by LAlt, because RAlt will be used as AltGr
+     * Layer 0: Alphanumeric
      *
      * ,--------------------------------------------------.           ,--------------------------------------------------.
-     * |   `    |   1  |   2  |   3  |   4  |   5  | +L1  |           | +L2  |   6  |   7  |   8  |   9  |   0  |   -    |
+     * |   `    |   1  |   2  |   3  |   4  |   5  |  [   |           |   ]  |   6  |   7  |   8  |   9  |   0  |   -    |
      * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-     * |  Tab   |   Q  |   W  |   E  |   R  |   T  | ~L1  |           | ~L1  |   Y  |   U  |   I  |   O  |   P  |   \    |
+     * |  Tab   |   Q  |   W  |   E  |   R  |   T  | Frnt |           | Frnt |   Y  |   U  |   I  |   O  |   P  |   \    |
      * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
      * | CapsLk |   A  |   S  |   D  |   F  |   G  |------|           |------|   H  |  J   |   K  |   L  |   ;  |   '    |
-     * |--------+------+------+------+------+------| Frnt |           | Frnt |------+------+------+------+------+--------|
-     * |  LShf  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |  RShf  |
+     * |--------+------+------+------+------+------| LSFT |           | LSFT |------+------+------+------+------+--------|
+     * |  RGHT  |   Z  |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  |   UP   |
      * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
-     *   | LGui |   =  |  Esc |  Lft | Rght |                                       |  Up  |  Dn  |  [   |  ]   | RGui |
+     *   | LEFT | LSFT |  LSup |  LMet | LCTL |                                     | RCTL | RMet | RSup | RSFT | DOWN |
      *   `----------------------------------'                                       `----------------------------------'
      *                                        ,-------------.       ,-------------.
-     *                                        | LCtl | LAlt |       | LAlt | RCtl |
+     *                                        |  ESC |  ~L3 |       |   =  |  ~L2 |
      *                                 ,------|------|------|       |------+------+------.
      *                                 |      |      | Home |       | PgUp |      |      |
      *                                 | BkSp |  Del |------|       |------| Enter| Space|
